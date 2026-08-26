@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scientia AI — Inteligencia para tu investigación</title>
+    <meta
+      name="description"
+      content="Consultoría de método científico mediado por IA en Manzana 40, Santa Cruz de la Sierra. Enseñamos a investigar, analizar y escribir con método, calidad y responsabilidad."
+    />
+    <meta property="og:title" content="Scientia AI" />
+    <meta
+      property="og:description"
+      content="Inteligencia para tu investigación. Ciencia para tus decisiones."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f2ede4;
+        --paper-2: #e7e0d3;
+        --paper-3: #ddd4c4;
+        --ink: #141816;
+        --ink-soft: #252b28;
+        --forest: #2a5348;
+        --forest-deep: #1c3a33;
+        --sage: #8fa399;
+        --muted: #6a665d;
+        --line: #d4cdbf;
+        --display: "Fraunces", "Iowan Old Style", Palatino, Georgia, serif;
+        --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      img { max-width: 100%; display: block; }
+      h1, h2, h3 { font-family: var(--display); font-weight: 500; text-wrap: balance; }
+      p { text-wrap: pretty; }
+      a { color: inherit; text-decoration: none; }
+      button { font-family: inherit; cursor: pointer; }
+      .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; }
+      @media (min-width: 768px) { .wrap { padding: 0 2rem; } }
+      .eyebrow {
+        color: var(--forest);
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin: 0 0 1rem;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        min-height: 3rem;
+        padding: 0 1.25rem;
+        border-radius: 0.5rem;
+        border: 0;
+        font-size: 0.9rem;
+        font-weight: 500;
+        background: var(--forest);
+        color: var(--paper);
+      }
+      .btn:hover { background: var(--forest-deep); }
+      .btn-ghost {
+        background: transparent;
+        color: inherit;
+        box-shadow: inset 0 0 0 1px currentColor;
+      }
+      .btn-ghost:hover { background: rgba(242, 237, 228, 0.1); }
+      .btn-invert { background: var(--paper); color: var(--ink); }
+      .btn-invert:hover { background: #fff; }
+      .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+      header.mast {
+        position: fixed; inset: 0 0 auto 0; z-index: 50;
+        background: rgba(242, 237, 228, 0.95);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 0 1px rgba(20, 24, 22, 0.06);
+      }
+      .mast-inner {
+        max-width: 72rem; margin: 0 auto; height: 4.5rem;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0 1.25rem;
+      }
+      .brand { display: flex; align-items: center; gap: 0.65rem; font-family: var(--display); font-size: 1.05rem; }
+      .brand b { color: var(--forest); font-weight: 500; }
+      nav.desk { display: none; align-items: center; gap: 2rem; }
+      nav.desk a { font-size: 0.8125rem; font-weight: 500; color: var(--muted); }
+      nav.desk a:hover { color: var(--ink); }
+      .menu-btn { background: 0; border: 0; width: 2.75rem; height: 2.75rem; }
+      .drawer {
+        display: none; position: fixed; inset: 4.5rem 0 0 0; background: var(--paper); z-index: 40;
+        padding: 2rem 1.5rem; flex-direction: column; gap: 0.25rem;
+      }
+      .drawer.open { display: flex; }
+      .drawer a { font-family: var(--display); font-size: 1.75rem; padding: 0.75rem 0; }
+      @media (min-width: 1024px) {
+        nav.desk { display: flex; }
+        .menu-btn { display: none; }
+      }
+      .hero { position: relative; min-height: 100svh; color: var(--paper); background: var(--ink); }
+      .hero img.bg, .band img.bg {
+        position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      }
+      .hero img.bg { object-position: 42% 30%; }
+      .hero .shade {
+        position: absolute; inset: 0;
+        background: linear-gradient(to top, #141816, rgba(20,24,22,.72), rgba(20,24,22,.3));
+      }
+      .hero-inner {
+        position: relative; min-height: 100svh; display: flex; flex-direction: column;
+        justify-content: flex-end; padding: 7rem 0 4rem;
+      }
+      .hero h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); line-height: 1.05; letter-spacing: -0.035em; margin: 0; max-width: 56rem; }
+      .hero h1 span { display: block; margin-top: 0.4rem; color: rgba(242,237,228,.7); }
+      .hero p.lead { max-width: 36rem; margin: 1.6rem 0 0; font-size: 1.08rem; line-height: 1.6; color: rgba(242,237,228,.82); }
+      .row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.4rem; }
+      .section { padding: 5rem 0; }
+      @media (min-width: 768px) { .section { padding: 7rem 0; } }
+      .h2 { font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; line-height: 1.1; margin: 0; }
+      .grid-12 { display: grid; gap: 2.5rem; }
+      @media (min-width: 768px) { .grid-12 { grid-template-columns: repeat(12, 1fr); } }
+      .span-5 { grid-column: span 12; } .span-6 { grid-column: span 12; } .span-7 { grid-column: span 12; }
+      @media (min-width: 768px) {
+        .span-5 { grid-column: span 5; } .span-6 { grid-column: span 6; } .span-7 { grid-column: span 7; }
+      }
+      blockquote {
+        margin: 2.2rem 0 0; padding: 0 0 0 1.4rem; border-left: 3px solid var(--forest);
+      }
+      blockquote p { font-family: var(--display); font-size: clamp(1.4rem, 2.4vw, 1.85rem); line-height: 1.3; letter-spacing: -0.02em; margin: 0; }
+      blockquote footer { margin-top: 0.9rem; font-size: 0.875rem; color: var(--muted); }
+      .verbs { display: grid; gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+      @media (min-width: 640px) { .verbs { grid-template-columns: 1fr 1fr; } }
+      @media (min-width: 1024px) { .verbs { grid-template-columns: repeat(4, 1fr); } }
+      .verbs article { background: var(--paper); padding: 2.4rem 1.6rem; }
+      .verbs .n { font-family: var(--display); color: var(--sage); letter-spacing: 0.16em; margin: 0 0 2rem; }
+      .ink { background: var(--ink); color: var(--paper); }
+      .paper2 { background: var(--paper-2); }
+      .cards { display: grid; gap: 1.2rem; margin-top: 3.2rem; }
+      @media (min-width: 768px) { .cards { grid-template-columns: 1fr 1fr; } }
+      @media (min-width: 1024px) { .cards.audiences { grid-template-columns: repeat(6, 1fr); } }
+      .card { overflow: hidden; border-radius: 1.75rem; background: var(--ink-soft); }
+      .card.wide { grid-column: span 1; }
+      @media (min-width: 1024px) { .card.wide { grid-column: span 3; } .card.narrow { grid-column: span 2; } }
+      .card img { width: 100%; height: 100%; object-fit: cover; }
+      .card .pic { aspect-ratio: 16/10; overflow: hidden; }
+      .card.narrow .pic { aspect-ratio: 4/3; }
+      .card .body { padding: 1.6rem; }
+      .card h3 { margin: 0; font-size: 1.5rem; letter-spacing: -0.02em; }
+      .card p { margin: 0.5rem 0 0; font-size: 0.9rem; line-height: 1.55; color: rgba(242,237,228,.7); }
+      .phase-btns { display: flex; gap: 0.5rem; overflow-x: auto; }
+      @media (min-width: 1024px) { .phase-btns { flex-direction: column; overflow: visible; } }
+      .phase-btns button {
+        display: flex; align-items: center; gap: 1rem; min-height: 2.75rem;
+        border: 0; border-radius: 0.75rem; padding: 0.75rem 1rem; text-align: left; white-space: nowrap;
+        background: var(--paper-2); color: var(--ink); font-weight: 500;
+      }
+      .phase-btns button.active { background: var(--ink); color: var(--paper); }
+      .phase-btns .n { font-family: var(--display); font-size: 0.875rem; color: var(--muted); }
+      .phase-btns button.active .n { color: var(--sage); }
+      .phase-panel { background: var(--paper-2); border-radius: 1.75rem; padding: 2.2rem; }
+      .split { display: grid; gap: 1rem; margin-top: 1.8rem; }
+      @media (min-width: 640px) { .split { grid-template-columns: 1fr 1fr; } }
+      .pill-box { background: var(--paper); border-radius: 1rem; padding: 1.2rem; }
+      .pill-box.forest { background: var(--forest); color: var(--paper); }
+      .pill-box .k { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin: 0; }
+      .pill-box.forest .k { color: var(--sage); }
+      .svc { display: grid; gap: 1.4rem; margin-top: 3.2rem; }
+      @media (min-width: 1024px) { .svc-2 { grid-template-columns: 1fr 1fr; } .svc-5 { grid-template-columns: 3fr 2fr; } }
+      .panel { overflow: hidden; border-radius: 1.75rem; background: var(--paper); box-shadow: 0 0 0 1px rgba(20,24,22,.06); }
+      .panel img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+      .panel .pad { padding: 2rem; }
+      .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+      .chip { background: var(--paper); border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 0.75rem; font-weight: 500; box-shadow: 0 0 0 1px rgba(20,24,22,.06); }
+      .ladder { margin-top: 3.2rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .ladder li {
+        display: grid; gap: 0.4rem; padding: 1.4rem 0.4rem; border-bottom: 1px solid var(--line); list-style: none;
+      }
+      .ladder { padding: 0; }
+      .ladder li:last-child { border-bottom: 0; }
+      .ladder li.feat { background: var(--ink); color: var(--paper); padding: 1.4rem 1.2rem; }
+      @media (min-width: 768px) {
+        .ladder li { grid-template-columns: 3rem 1.4fr 0.8fr 0.6fr 1.4fr; align-items: baseline; }
+      }
+      .diag-box { background: var(--paper); color: var(--ink); border-radius: 1.75rem; padding: 2rem; }
+      .opts { display: grid; gap: 0.5rem; margin-top: 1.8rem; }
+      @media (min-width: 640px) { .opts { grid-template-columns: 1fr 1fr; } }
+      .opt {
+        min-height: 3rem; border: 0; border-radius: 0.75rem; padding: 0.75rem 1rem;
+        text-align: left; background: var(--paper-2); color: var(--ink); font-size: 0.9rem;
+      }
+      .opt.on { background: var(--forest); color: var(--paper); }
+      input, textarea {
+        width: 100%; border: 0; border-radius: 0.75rem; padding: 0 1rem;
+        background: var(--paper-2); color: var(--ink); font: inherit;
+      }
+      input { height: 3rem; }
+      textarea { padding: 0.85rem 1rem; min-height: 5.5rem; }
+      .progress { height: 4px; background: var(--paper-3); border-radius: 99px; overflow: hidden; flex: 1; }
+      .progress > span { display: block; height: 100%; background: var(--forest); }
+      .gallery { display: grid; gap: 1rem; grid-template-columns: 1fr; padding-bottom: 5rem; }
+      @media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+      .gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 1.5rem; }
+      @media (min-width: 768px) {
+        .gallery img.span2 { grid-column: span 2; }
+      }
+      .band { position: relative; min-height: 52vh; overflow: hidden; }
+      .band .shade { position: absolute; inset: 0; background: linear-gradient(to top, #141816, rgba(20,24,22,.5), rgba(20,24,22,.2)); }
+      footer.site { background: var(--paper-2); }
+      footer.site .bot { border-top: 1px solid var(--line); font-size: 0.75rem; color: var(--muted); padding: 1.4rem 0; }
+      .hidden { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <header class="mast">
+      <div class="mast-inner">
+        <a class="brand" href="index.html" aria-label="Scientia AI">
+          <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="7" fill="#2a5348" />
+            <path fill="#f2ede4" d="M21.4 11.1c0-2.35-1.95-3.85-5.25-3.85-3.45 0-5.55 1.7-6.15 4.25h3.15c.35-1.2 1.45-2.05 3-2.05 1.4 0 2.2.65 2.2 1.65 0 .9-.7 1.4-2.65 1.85l-2.15.5c-3.15.7-4.7 2.15-4.7 4.55 0 2.6 2.15 4.25 5.6 4.25 3.55 0 5.75-1.8 6.4-4.5h-3.25c-.4 1.3-1.6 2.2-3.3 2.2-1.5 0-2.4-.7-2.4-1.7 0-.9.7-1.4 2.75-1.9l2.25-.5c3.05-.7 4.4-2.2 4.4-4.6z"/>
+          </svg>
+          Scientia <b>AI</b>
+        </a>
+        <nav class="desk">
+          <a href="#metodo">Método</a>
+          <a href="#servicios">Servicios</a>
+          <a href="#planes">Planes</a>
+          <a href="etica.html">Ética</a>
+          <a href="#sede">Sede</a>
+          <a class="btn" href="#diagnostico" style="min-height:2.4rem;padding:0 1rem;font-size:.8rem">Diagnóstico académico</a>
+        </nav>
+        <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+      </div>
+      <nav class="drawer" id="drawer">
+        <a href="#metodo">Método</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#planes">Planes</a>
+        <a href="etica.html">Ética</a>
+        <a href="#sede">Sede</a>
+        <a class="btn" href="#diagnostico" style="margin-top:1.2rem">Diagnóstico académico</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <img class="bg" src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/hub40.jpg" alt="Hub 40 en Manzana 40: espacio de trabajo con vista al dosel de Santa Cruz de la Sierra" />
+      <div class="shade"></div>
+      <div class="wrap hero-inner">
+        <p class="eyebrow" style="color:var(--sage)">Hub 40 · Manzana 40 · Santa Cruz de la Sierra</p>
+        <h1>Inteligencia para tu investigación.<span>Ciencia para tus decisiones.</span></h1>
+        <p class="lead">Enseñamos a utilizar Inteligencia Artificial para investigar, analizar, escribir y desarrollar trabajos científicos con método, calidad y responsabilidad.</p>
+        <div class="row">
+          <a class="btn btn-invert" href="#diagnostico">Empezar diagnóstico</a>
+          <a class="btn btn-ghost" href="#metodo">Ver el método</a>
+        </div>
+        <p style="margin-top:3.5rem;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(242,237,228,.55)">↓ Autoría asistida, no sustituida</p>
+      </div>
+    </section>
+
+    <section id="empresa" class="section">
+      <div class="wrap grid-12">
+        <div class="span-5">
+          <p class="eyebrow">Qué es esta empresa</p>
+          <h2 class="h2">Consultoría de método científico mediado por IA.</h2>
+        </div>
+        <div class="span-7">
+          <p style="font-size:1.1rem;line-height:1.65;color:var(--ink-soft)">El cliente permanece como autor. Scientia AI enseña, acompaña, personaliza y optimiza el proceso — desde la elección del tema hasta la defensa.</p>
+          <blockquote>
+            <p>No hacemos tu tesis. Te enseñamos a conducir tu investigación con IA de forma metodológicamente correcta, ética y declarable.</p>
+            <footer>Posicionamiento de rechazo — público y contractual.</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+    <div class="verbs">
+      <article><p class="n">01</p><h3>Enseñar</h3><p style="color:var(--muted);line-height:1.55">Instalar criterio. La IA es instrumento; el método es el producto.</p></article>
+      <article><p class="n">02</p><h3>Acompañar</h3><p style="color:var(--muted);line-height:1.55">Estar en la cadena completa: del tema a la defensa, sin escribir el capítulo por ti.</p></article>
+      <article><p class="n">03</p><h3>Personalizar</h3><p style="color:var(--muted);line-height:1.55">Un plan por proyecto: nivel, plazo, tipo de trabajo y cuello de botella.</p></article>
+      <article><p class="n">04</p><h3>Optimizar</h3><p style="color:var(--muted);line-height:1.55">Acelerar lo repetible. Devolver el control al autor en cada decisión científica.</p></article>
+    </div>
+
+    <section class="ink section">
+      <div class="wrap">
+        <p class="eyebrow" style="color:var(--sage)">Propuesta de valor</p>
+        <h2 class="h2">Un público, un problema, un método.</h2>
+        <div class="cards audiences">
+          <article class="card wide"><div class="pic"><img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/mesa-papers.jpg" alt="Mesa de trabajo con artículos científicos" /></div><div class="body"><h3>Estudiante</h3><p>Salir del bloqueo y llegar a la defensa con autoría y declaración del uso de IA.</p></div></article>
+          <article class="card wide"><div class="pic"><img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/manzana-sala.jpg" alt="Sala de mentoría en Manzana 40" /></div><div class="body"><h3>Posgraduando</h3><p>Calidad metodológica, revisión de literatura verificable y manuscrito defendible.</p></div></article>
+          <article class="card narrow"><div class="pic"><img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/mentor-reunion.jpg" alt="Sesión de supervisión académica" /></div><div class="body"><h3>Profesor</h3><p>Materiales, evaluación y supervisión de orientandos que ya utilizan IA.</p></div></article>
+          <article class="card narrow"><div class="pic"><img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/expedientes.jpg" alt="Expedientes y fuentes primarias" /></div><div class="body"><h3>Investigador</h3><p>Flujo de artículo — búsqueda, extracción, redacción, envío — sin renunciar a la integridad.</p></div></article>
+          <article class="card narrow"><div class="pic"><img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/microscopio.jpg" alt="Laboratorio clínico" /></div><div class="body"><h3>Profesional de salud</h3><p>Informes, revisiones y productividad científica sin exponer datos de pacientes.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="metodo" class="section">
+      <div class="wrap">
+        <div class="grid-12">
+          <div class="span-5">
+            <p class="eyebrow">El producto invisible</p>
+            <h2 class="h2">Tesis desde Cero.</h2>
+            <p style="color:var(--muted);line-height:1.65;max-width:28rem">Seis fases. Columna vertebral de la mentoría individual y de la inmersión grupal. En cada etapa, la IA propone; el humano decide.</p>
+          </div>
+          <div class="span-7">
+            <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/mentor-reunion.jpg" alt="Ensayo de defensa en Manzana 40" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top;border-radius:1.75rem" />
+          </div>
+        </div>
+        <div class="grid-12" style="margin-top:3.2rem">
+          <ol class="span-5 phase-btns" id="phaseBtns"></ol>
+          <div class="span-7 phase-panel" id="phasePanel"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicios" class="section paper2">
+      <div class="wrap">
+        <p class="eyebrow">Portafolio</p>
+        <h2 class="h2" style="max-width:40rem">Mentor, inmersión y MedAI Research.</h2>
+        <div class="svc svc-2">
+          <article class="panel">
+            <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/manzana-sala.jpg" alt="Sala de Scientia Mentor en Manzana 40" />
+            <div class="pad">
+              <p class="eyebrow">01 · Individual</p>
+              <h3 style="font-size:1.85rem;margin:.3rem 0 0">Scientia Mentor</h3>
+              <p style="line-height:1.65;color:var(--ink-soft)">Un consultor por proyecto. Acompaña la cadena completa: tema, problema, pregunta, objetivos, hipótesis, metodología, búsqueda, organización, análisis, redacción, referencias, revisión, presentación y defensa.</p>
+              <p style="color:var(--muted);font-size:.9rem">No escribe el capítulo en lugar del estudiante; audita el uso de IA y devuelve el control al autor.</p>
+            </div>
+          </article>
+          <article class="panel">
+            <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/hub40.jpg" alt="Inmersión grupal en Hub 40" style="object-position:38% 0" />
+            <div class="pad">
+              <p class="eyebrow">02 · Grupo · 5 a 15 personas</p>
+              <h3 style="font-size:1.85rem;margin:.3rem 0 0">Inmersión IA</h3>
+              <p style="line-height:1.65;color:var(--ink-soft)">Ocho semanas: IA para investigadores; encontrar artículos; PubMed, Scopus, WoS, SciELO, Cochrane; lectura científica con IA; revisión bibliográfica; metodología; escritura y referencias; presentación y defensa.</p>
+              <p style="color:var(--muted);font-size:.9rem">En vivo + materiales + comunidad privada + ejercicio sobre el proyecto real de cada participante.</p>
+            </div>
+          </article>
+        </div>
+        <div class="svc svc-5" style="margin-top:1.4rem">
+          <article class="panel" style="background:var(--ink);color:var(--paper)">
+            <div class="pad">
+              <p class="eyebrow" style="color:var(--sage)">03 · Capacidad aplicada</p>
+              <h3 style="font-size:1.85rem;margin:.3rem 0 0">Lo que el método pone en tus manos</h3>
+              <ul id="caps" style="display:grid;gap:.5rem;margin:1.8rem 0 0;padding:0;list-style:none"></ul>
+            </div>
+          </article>
+          <article class="panel" style="background:var(--forest);color:var(--paper)">
+            <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/medai-lab.jpg" alt="MedAI Research" style="aspect-ratio:16/10" />
+            <div class="pad">
+              <p class="eyebrow" style="color:var(--sage)">04 · Nicho inicial</p>
+              <h3 style="margin:.3rem 0 0">MedAI Research</h3>
+              <p style="font-size:.9rem;line-height:1.55;color:rgba(242,237,228,.8)">Medicina, Enfermería, Odontología, Fisioterapia, Farmacia, Biomedicina, Nutrición y Salud Pública.</p>
+              <p style="font-size:.9rem;line-height:1.55;color:rgba(242,237,228,.7)">Ningún dato identificable de paciente entra en una herramienta sin base legal y configuración adecuada de privacidad.</p>
+            </div>
+          </article>
+        </div>
+        <p class="eyebrow" style="color:var(--muted);margin-top:2.4rem">Bases y herramientas</p>
+        <div class="chips" id="bases"></div>
+      </div>
+    </section>
+
+    <section id="planes" class="section">
+      <div class="wrap">
+        <p class="eyebrow">Escalera comercial</p>
+        <h2 class="h2" style="max-width:36rem">No eliges un plan. Eliges el producto académico.</h2>
+        <p style="color:var(--muted);max-width:36rem;line-height:1.65">El diagnóstico recomienda el peldaño. La escalera existe para que el método se pueda probar, profundizar o contratar 1:1 — nunca para vender escritura ajena.</p>
+        <ol class="ladder" id="ladder"></ol>
+      </div>
+    </section>
+
+    <section id="diagnostico" class="ink section">
+      <div class="wrap grid-12">
+        <div class="span-5">
+          <p class="eyebrow" style="color:var(--sage)">Jornada del cliente</p>
+          <h2 class="h2">Diagnóstico académico.</h2>
+          <p style="color:rgba(242,237,228,.7);line-height:1.65">Diez a quince ítems. El resultado es un Plan Personalizado de Investigación: nivel, plazo, tipo de trabajo, cuello de botella y programa recomendado.</p>
+          <p style="font-size:.875rem;color:rgba(242,237,228,.5)">Ejemplo: nivel inicial · plazo 90 días · revisión bibliográfica · neumología · dificultad en metodología · programa PRO.</p>
+        </div>
+        <div class="span-7">
+          <div class="diag-box" id="diag"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section paper2">
+      <div class="wrap grid-12">
+        <div class="span-5">
+          <p class="eyebrow">Código de Ética</p>
+          <h2 class="h2">IA e investigación científica.</h2>
+          <p style="color:var(--muted);line-height:1.65">Documento público de la marca. No es un anexo decorativo: es el filtro comercial. Quien solicita ghostwriting es rechazado.</p>
+          <a href="etica.html" style="color:var(--forest);display:inline-flex;align-items:center;min-height:2.75rem;font-size:.9rem;font-weight:500">Leer el código completo →</a>
+        </div>
+        <ol class="span-7" style="margin:0;padding:0;list-style:none" id="ethicsPreview"></ol>
+      </div>
+    </section>
+
+    <section id="sede" class="ink">
+      <div class="band">
+        <img class="bg" src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/manzana40.jpg" alt="Torres de Manzana 40 al atardecer" />
+        <div class="shade"></div>
+        <div class="wrap" style="position:relative;min-height:52vh;display:flex;flex-direction:column;justify-content:flex-end;padding:4rem 0">
+          <p class="eyebrow" style="color:var(--sage)">Sede</p>
+          <h2 class="h2">Manzana 40.<span style="display:block;margin-top:.4rem;color:rgba(242,237,228,.7)">Santa Cruz de la Sierra.</span></h2>
+        </div>
+      </div>
+      <div class="wrap grid-12 section" style="padding-bottom:2rem">
+        <div class="span-6">
+          <p style="font-size:1.1rem;line-height:1.65;color:rgba(242,237,228,.8)">Scientia AI opera en Manzana 40 Plaza Empresarial, en el corazón financiero de Equipetrol Norte. Un edificio LEED — torres gemelas de muro cortina, 16 ascensores, coworking Hub 40 y boulevard gastronómico — pensado para trabajo de alto criterio, no para un aula improvisada.</p>
+          <ul style="margin:2.2rem 0 0;padding:0;list-style:none;display:grid;gap:1.2rem">
+            <li><strong>Av. San Martín, Equipetrol Norte</strong><br /><span style="color:rgba(242,237,228,.6);font-size:.9rem">Santa Cruz de la Sierra, Bolivia</span></li>
+            <li><strong>Plaza Empresarial · A4 Arquitectos</strong><br /><span style="color:rgba(242,237,228,.6);font-size:.9rem">Primera edificación empresarial LEED del país</span></li>
+            <li><strong>Mentorías presenciales y en vivo</strong><br /><span style="color:rgba(242,237,228,.6);font-size:.9rem">Hub 40, salas de reunión y sesiones 1:1</span></li>
+          </ul>
+        </div>
+        <div class="span-6">
+          <form id="visitForm" style="background:var(--ink-soft);border-radius:1.75rem;padding:2rem">
+            <h3 style="margin:0;font-size:1.5rem">Agenda una visita</h3>
+            <p style="color:rgba(242,237,228,.6);font-size:.9rem">Trae tu diagnóstico. Hablamos de método, no de atajos.</p>
+            <div id="visitFields" style="display:grid;gap:1rem;margin-top:1.6rem">
+              <label>Nombre<input name="name" required /></label>
+              <label>Correo<input name="email" type="email" required /></label>
+              <label>Qué estás escribiendo<textarea name="note"></textarea></label>
+              <button class="btn btn-invert" type="submit">Solicitar agenda</button>
+            </div>
+            <p id="visitOk" class="hidden" style="margin-top:1.6rem;background:rgba(42,83,72,.4);border-radius:1rem;padding:1.2rem;font-size:.9rem">Recibido. Te contactaremos para coordinar en Manzana 40. Si ya completaste el diagnóstico, lo usaremos como punto de partida.</p>
+          </form>
+        </div>
+      </div>
+      <div class="wrap gallery">
+        <img class="span2" src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/manzana-sala.jpg" alt="Sala de reuniones en Manzana 40" />
+        <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/hub40.jpg" alt="Coworking Hub 40" />
+        <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/manzana-cielo.jpg" alt="Torres de Manzana 40" />
+        <img class="span2" src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/plaza-aerea.jpg" alt="Plaza 24 de Septiembre" />
+        <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/catedral.jpg" alt="Catedral Metropolitana" />
+        <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/skyline.jpg" alt="Skyline de Santa Cruz" />
+        <img src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/catedral-atardecer.jpg" alt="Atardecer en la Plaza 24 de Septiembre" />
+        <img class="span2" src="https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos/microscopio.jpg" alt="Laboratorio científico" />
+      </div>
+    </section>
+
+    <footer class="site">
+      <div class="wrap grid-12" style="padding:4rem 0">
+        <div class="span-5">
+          <div class="brand">
+            <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2a5348"/><path fill="#f2ede4" d="M21.4 11.1c0-2.35-1.95-3.85-5.25-3.85-3.45 0-5.55 1.7-6.15 4.25h3.15c.35-1.2 1.45-2.05 3-2.05 1.4 0 2.2.65 2.2 1.65 0 .9-.7 1.4-2.65 1.85l-2.15.5c-3.15.7-4.7 2.15-4.7 4.55 0 2.6 2.15 4.25 5.6 4.25 3.55 0 5.75-1.8 6.4-4.5h-3.25c-.4 1.3-1.6 2.2-3.3 2.2-1.5 0-2.4-.7-2.4-1.7 0-.9.7-1.4 2.75-1.9l2.25-.5c3.05-.7 4.4-2.2 4.4-4.6z"/></svg>
+            Scientia <b>AI</b>
+          </div>
+          <p style="font-family:var(--display);font-size:1.5rem;letter-spacing:-.02em;max-width:22rem">Inteligencia para tu investigación. Ciencia para tus decisiones.</p>
+        </div>
+        <div class="span-7" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;font-size:.9rem">
+          <div>
+            <p class="eyebrow" style="color:var(--muted)">Método</p>
+            <p><a href="#metodo">Tesis desde Cero</a><br /><a href="#servicios">Scientia Mentor</a><br /><a href="#diagnostico">Diagnóstico</a></p>
+          </div>
+          <div>
+            <p class="eyebrow" style="color:var(--muted)">Empresa</p>
+            <p><a href="etica.html">Código de Ética</a><br /><a href="#planes">Planes</a><br /><a href="#sede">Manzana 40</a></p>
+          </div>
+          <div>
+            <p class="eyebrow" style="color:var(--muted)">Sede</p>
+            <p style="color:var(--ink-soft);line-height:1.6">Manzana 40 Plaza Empresarial<br />Av. San Martín<br />Santa Cruz de la Sierra, BO</p>
+          </div>
+        </div>
+      </div>
+      <div class="bot"><div class="wrap" style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between"><p>© 2026 Scientia AI. Autoría asistida.</p><p>El investigador es integralmente responsable del contenido final.</p></div></div>
+    </footer>
+
+    <script>
+      const PHOTO = "https://raw.githubusercontent.com/aquilespriester/scientia-ai/main/public/photos";
+      const menuBtn = document.getElementById("menuBtn");
+      const drawer = document.getElementById("drawer");
+      menuBtn.onclick = () => drawer.classList.toggle("open");
+      drawer.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => drawer.classList.remove("open")));
+
+      const PHASES = [
+        { n: "01", title: "Descubrimiento", aim: "Intereses, problema, viabilidad y público.", ia: "Explorar brechas y reformular preguntas.", human: "Decidir qué vale la pena investigar." },
+        { n: "02", title: "Proyecto", aim: "Título, pregunta, objetivos, hipótesis y método.", ia: "Probar coherencia y alternativas metodológicas.", human: "Aprobar el diseño del estudio." },
+        { n: "03", title: "Investigación", aim: "Estrategia de búsqueda, bases, selección y lectura crítica.", ia: "Selección, resumen, comparación y mapas.", human: "Validar cada fuente y cada exclusión." },
+        { n: "04", title: "Producción", aim: "Estructura, escritura, citas, tablas y figuras.", ia: "Esquema, contraargumentos y claridad.", human: "Redactar y reescribir como autor." },
+        { n: "05", title: "Revisión", aim: "Coherencia, método, similitud y lenguaje.", ia: "Checklist, inconsistencias y estilo.", human: "Corregir el contenido y declarar el uso de IA." },
+        { n: "06", title: "Defensa", aim: "Diapositivas, guion y simulación de banca.", ia: "Preguntas difíciles y puntos débiles.", human: "Argumentar y sustentar decisiones." },
+      ];
+      let active = 0;
+      const btns = document.getElementById("phaseBtns");
+      const panel = document.getElementById("phasePanel");
+      function renderPhase() {
+        btns.innerHTML = PHASES.map((p, i) => `<li style="list-style:none"><button class="${i===active?"active":""}" data-i="${i}"><span class="n">${p.n}</span>${p.title}</button></li>`).join("");
+        const p = PHASES[active];
+        panel.innerHTML = `<p class="eyebrow">${p.n}</p><h3 style="font-size:1.85rem;margin:.4rem 0">${p.title}</h3><p style="color:var(--ink-soft)">${p.aim}</p><div class="split"><div class="pill-box"><p class="k">IA</p><p>${p.ia}</p></div><div class="pill-box forest"><p class="k">Humano</p><p>${p.human}</p></div></div>`;
+        btns.querySelectorAll("button").forEach((b) => b.onclick = () => { active = +b.dataset.i; renderPhase(); });
+      }
+      renderPhase();
+
+      document.getElementById("caps").innerHTML = [
+        "Encontrar y comparar artículos","Identificar brechas","Construir estrategias de búsqueda","Organizar referencias (Zotero / Mendeley)","Analizar PDF y extraer datos","Elaborar tablas y mapas conceptuales","Estructurar revisiones sistemáticas","Apoyar análisis estadístico (sin sustituir al estadístico)","Mejorar la redacción","Traducir con revisión humana","Preparar diapositivas y preguntas de tribunal"
+      ].map((c) => `<li style="display:flex;gap:.7rem;font-size:.9rem;color:rgba(242,237,228,.8)"><span style="width:6px;height:6px;border-radius:99px;background:var(--sage);margin-top:.45rem;flex:none"></span>${c}</li>`).join("");
+
+      document.getElementById("bases").innerHTML = ["PubMed","Scholar","Scopus","Web of Science","SciELO","Cochrane","ClinicalTrials.gov","Zotero","Mendeley","ChatGPT","Claude","Gemini","Grok","Perplexity","Elicit","NotebookLM"].map((b) => `<span class="chip">${b}</span>`).join("");
+
+      document.getElementById("ladder").innerHTML = [
+        ["Clase introductoria","Academy","Gratuita","Adquisición y filtro ético. Quien pide ghostwriting no pasa."],
+        ["Workshop IA para investigadores","Academy","Bajo costo","Prueba del método en formato corto."],
+        ["Curso IA + Investigación","Academy","Recurrente","Ingresos de contenido. Base de método grabada."],
+        ["Plan START","Academy / Mentor","Entrada","Grabado + comunidad. Accesible para arrancar."],
+        ["Plan PRO","Mentor","Núcleo","Grupo en vivo. El corazón de ingresos medios.", true],
+        ["Plan PREMIUM","Mentor","1:1","Un consultor por proyecto. Margen alto."],
+        ["Plan MASTER","Mentor","Completo","Tesis desde Cero. Acompañamiento premium de las seis fases."],
+        ["Consultoría institucional","Lab / B2B","A medida","Workshops para posgrado y comités de ética."],
+      ].map((p, i) => `<li class="${p[4]?"feat":""}"><span style="font-family:var(--display);color:${p[4]?"var(--sage)":"var(--muted)"}">${String(i+1).padStart(2,"0")}</span><strong style="font-family:var(--display);font-size:1.15rem;font-weight:500">${p[0]}</strong><span style="color:${p[4]?"var(--sage)":"var(--forest)"}">${p[1]}</span><span>${p[2]}</span><span style="color:${p[4]?"rgba(242,237,228,.7)":"var(--muted)"};font-size:.9rem">${p[3]}</span></li>`).join("");
+
+      const RULES = [
+        "No fabricar referencias, datos, resultados, tablas o “hallazgos”.",
+        "Verificar toda cita en la fuente original antes de incorporarla al manuscrito.",
+        "Declarar el uso de IA conforme a la normativa de la institución y, cuando corresponda, Portaria CNPq 2.664/2026 (herramienta + finalidad + etapa).",
+        "Está prohibido presentar texto generado por IA como autoría humana no declarada.",
+        "El investigador es integralmente responsable del contenido final.",
+      ];
+      document.getElementById("ethicsPreview").innerHTML = RULES.map((r,i) => `<li style="display:flex;gap:1.2rem;border-top:1px solid var(--line);padding:1.2rem 0"><span style="font-family:var(--display);color:var(--sage);width:2rem">${String(i+1).padStart(2,"0")}</span><span style="color:var(--ink-soft);line-height:1.55">${r}</span></li>`).join("");
+
+      const PRODUCTS = [
+        {id:"tcc",label:"TCC / Trabajo de grado"},{id:"monografia",label:"Monografía"},{id:"articulo",label:"Artículo científico"},
+        {id:"revision",label:"Revisión sistemática"},{id:"disertacion",label:"Disertación (maestría)"},{id:"tesis",label:"Tesis (doctorado)"},
+        {id:"proyecto",label:"Proyecto de investigación"},{id:"clase",label:"Clase / material docente"},{id:"productividad",label:"Productividad científica"}
+      ];
+      const PROGRAMS = {
+        START:{name:"Plan START",tag:"Academy / Mentor",summary:"Grabado + comunidad. Entrada accesible para arrancar con método."},
+        PRO:{name:"Plan PRO",tag:"Mentor grupal",summary:"Grupo en vivo, 8 semanas, sobre tu proyecto real."},
+        PREMIUM:{name:"Plan PREMIUM",tag:"Mentor 1:1",summary:"Un consultor por proyecto. Acompañamiento individual de alto margen de control."},
+        MASTER:{name:"Plan MASTER",tag:"Tesis desde Cero",summary:"Acompañamiento premium completo, las seis fases del método."}
+      };
+      const STEPS = [
+        {key:"ghostwrite",title:"¿Quieres que alguien escriba tu tesis o artículo por ti?",hint:"Filtro ético. La respuesta define si podemos trabajar juntos.",kind:"choice",options:[{id:"no",label:"No. Quiero autoría y método."},{id:"si",label:"Sí. Necesito que la escriban."}]},
+        {key:"product",title:"¿Cuál es el producto académico?",hint:"No eliges un plan. Eliges el trabajo.",kind:"choice",options:PRODUCTS},
+        {key:"level",title:"¿En qué nivel estás?",kind:"choice",options:[{id:"grado",label:"Grado / licenciatura"},{id:"especialidad",label:"Especialidad"},{id:"maestria",label:"Maestría"},{id:"doctorado",label:"Doctorado"},{id:"profesional",label:"Ejercicio profesional"}]},
+        {key:"area",title:"Área de conocimiento",kind:"choice",options:["Medicina","Enfermería","Odontología","Fisioterapia","Farmacia","Biomedicina","Nutrición","Salud Pública","Psicología","Educación","Ingeniería","Derecho","Otra"].map(a=>({id:a,label:a}))},
+        {key:"theme",title:"Tema o línea (aunque sea tentativo)",hint:"Una frase basta. Ejemplo: revisión bibliográfica en neumología.",kind:"text"},
+        {key:"advisor",title:"¿Tienes asesor o tutor activo?",kind:"choice",options:[{id:"si",label:"Sí, con seguimiento regular"},{id:"parcial",label:"Sí, pero irregular"},{id:"no",label:"No / aún no asignado"}]},
+        {key:"deadline",title:"¿Cuál es el plazo real?",kind:"choice",options:[{id:"30",label:"30 días"},{id:"60",label:"60 días"},{id:"90",label:"90 días"},{id:"180",label:"180 días"},{id:"365",label:"12 meses"}]},
+        {key:"method",title:"Metodología prevista",kind:"choice",options:[{id:"revision",label:"Revisión bibliográfica / sistemática"},{id:"cualitativa",label:"Cualitativa"},{id:"cuantitativa",label:"Cuantitativa"},{id:"mixta",label:"Mixta"},{id:"indefinida",label:"Aún no está clara"}]},
+        {key:"stage",title:"¿En qué etapa estás hoy?",kind:"choice",options:[{id:"cero",label:"Desde cero"},{id:"proyecto",label:"Proyecto / protocolo"},{id:"busqueda",label:"Búsqueda y lectura"},{id:"redaccion",label:"Redacción"},{id:"revision",label:"Revisión"},{id:"defensa",label:"Preparando defensa"}]},
+        {key:"bottleneck",title:"Principal cuello de botella",kind:"choice",options:[{id:"tema",label:"Elegir o acotar el tema"},{id:"metodologia",label:"Metodología"},{id:"literatura",label:"Revisión de literatura"},{id:"redaccion",label:"Redacción"},{id:"analisis",label:"Análisis"},{id:"defensa",label:"Defensa"},{id:"tiempo",label:"Tiempo / bloqueo"}]},
+        {key:"iaLevel",title:"¿Cuál es tu nivel de uso de IA?",kind:"choice",options:[{id:"nula",label:"Casi nulo"},{id:"inicial",label:"Inicial — chat ocasional"},{id:"intermedia",label:"Intermedio — ya busca y resume"},{id:"avanzada",label:"Avanzado — flujo con herramientas"}]},
+        {key:"hours",title:"Horas semanales reales para el trabajo",kind:"choice",options:[{id:"2",label:"2 a 4 horas"},{id:"5",label:"5 a 8 horas"},{id:"10",label:"10 a 14 horas"},{id:"15",label:"15 horas o más"}]},
+        {key:"ethics",title:"¿El estudio pasa por comité de ética?",kind:"choice",options:[{id:"si",label:"Sí"},{id:"no",label:"No"},{id:"no-se",label:"Aún no lo sé"}]},
+        {key:"name",title:"¿Cómo te llamas? (opcional)",hint:"Para titular el plan. Puedes dejarlo en blanco.",kind:"text"},
+      ];
+      const LEVEL_LABEL = {nula:"nivel nulo de IA",inicial:"nivel inicial",intermedia:"nivel intermedio",avanzada:"nivel avanzado","":"nivel por definir"};
+      const DEADLINE_LABEL = {"30":"plazo 30 días","60":"plazo 60 días","90":"plazo 90 días","180":"plazo 180 días","365":"plazo 12 meses","":"plazo por definir"};
+      const BOTTLENECK_LABEL = {tema:"dificultad en el tema",metodologia:"dificultad en metodología",literatura:"dificultad en revisión bibliográfica",redaccion:"dificultad en redacción",analisis:"dificultad en análisis",defensa:"dificultad en la defensa",tiempo:"cuello de botella: tiempo","":"cuello de botella por mapear"};
+      function recommend(a) {
+        const product = PRODUCTS.find((p) => p.id === a.product);
+        const isThesis = a.product === "tesis" || a.product === "disertacion";
+        const long = a.deadline === "180" || a.deadline === "365";
+        const short = a.deadline === "30" || a.deadline === "60";
+        const early = a.stage === "cero" || a.stage === "proyecto";
+        const highTouch = a.bottleneck === "metodologia" || a.bottleneck === "analisis" || a.level === "doctorado" || a.product === "revision";
+        let program = "PRO"; const reasons = [];
+        if (isThesis && (long || early) && a.hours !== "2") { program = "MASTER"; reasons.push("Trabajo de posgrado largo: conviene la columna vertebral Tesis desde Cero."); }
+        else if (highTouch && (a.level === "doctorado" || a.level === "maestria" || a.advisor === "no")) { program = "PREMIUM"; reasons.push("El cuello de botella y el nivel piden auditoría 1:1, no un ritmo grupal."); }
+        else if (a.iaLevel === "nula" || a.iaLevel === "inicial" || short || a.hours === "2") {
+          program = a.product === "clase" || a.product === "productividad" ? "START" : "PRO";
+          reasons.push(program === "START" ? "Entrada accesible: grabado + comunidad para instalar el método sin saturarte." : "Plazo y nivel de IA encajan con inmersión grupal sobre tu proyecto real.");
+        } else { program = "PRO"; reasons.push("El formato grupal en vivo es el núcleo: método + comunidad + ejercicio sobre tu trabajo."); }
+        if (a.bottleneck === "metodologia") reasons.push("La metodología es el punto de control humano: la IA propone, tú apruebas el diseño.");
+        if (a.product === "revision") reasons.push("Revisión sistemática exige estrategia de búsqueda, exclusión y trazabilidad declarable.");
+        if (a.ethics === "si") reasons.push("Hay comité de ética: el flujo MedAI no introduce datos identificables de pacientes.");
+        const phases = program === "MASTER" ? ["Descubrimiento","Proyecto","Investigación","Producción","Revisión","Defensa"] : program === "PREMIUM" ? ["Diagnóstico","Diseño","Búsqueda y lectura","Redacción auditada","Defensa"] : program === "PRO" ? ["IA para investigadores","Bases y búsqueda","Lectura","Metodología","Escritura","Defensa"] : ["Clase introductoria","Curso IA + Investigación","Comunidad","Plan de 90 días"];
+        return { level: LEVEL_LABEL[a.iaLevel]||"", deadline: DEADLINE_LABEL[a.deadline]||"", work: product?.label || "producto académico", area: a.area || "área por definir", bottleneck: BOTTLENECK_LABEL[a.bottleneck]||"", program, reasons, phases };
+      }
+      const KEY = "scientia-diagnostico";
+      let answers = JSON.parse(localStorage.getItem(KEY) || "{}");
+      let step = 0, done = false;
+      const box = document.getElementById("diag");
+      function save() { localStorage.setItem(KEY, JSON.stringify(answers)); }
+      function renderDiag() {
+        if (answers.ghostwrite === "si" && step > 0) {
+          box.innerHTML = `<h3 style="font-size:1.85rem">No tomamos ese encargo.</h3><p style="color:var(--ink-soft);line-height:1.6">Scientia AI no hace ghostwriting. Quien solicita que escribamos la tesis en su lugar es rechazado — el Código de Ética no es un anexo decorativo: es el filtro comercial.</p><p style="color:var(--muted)">Si lo que buscas es aprender a conducir tu investigación con IA, de forma declarable, puedes volver a empezar.</p><button class="btn" id="resetBtn" style="margin-top:1.6rem">Reiniciar diagnóstico</button>`;
+          box.querySelector("#resetBtn").onclick = reset;
+          return;
+        }
+        if (done) {
+          const plan = recommend(answers); const prog = PROGRAMS[plan.program];
+          const chips = [plan.level, plan.deadline, plan.work, plan.area, plan.bottleneck, "programa "+plan.program].join(" · ");
+          box.innerHTML = `<p class="eyebrow">Plan personalizado de investigación</p><h3 style="font-size:1.85rem;margin:.4rem 0">${answers.name ? answers.name+", este es tu plan." : "Este es tu plan."}</h3>${answers.theme?`<p style="font-style:italic;color:var(--muted)">«${answers.theme}»</p>`:""}<p style="font-size:.9rem;color:var(--muted)">${chips}</p><div style="background:var(--ink);color:var(--paper);border-radius:1rem;padding:1.6rem;margin-top:1.6rem"><p class="eyebrow" style="color:var(--sage)">${prog.tag}</p><p style="font-family:var(--display);font-size:1.7rem;margin:.3rem 0">${prog.name}</p><p style="color:rgba(242,237,228,.75)">${prog.summary}</p></div><ul style="margin:1.4rem 0;padding:0;list-style:none">${plan.reasons.map(r=>`<li style="display:flex;gap:.7rem;font-size:.9rem;color:var(--ink-soft);margin:.5rem 0"><span style="width:6px;height:6px;border-radius:99px;background:var(--forest);margin-top:.5rem;flex:none"></span>${r}</li>`).join("")}</ul><p class="eyebrow" style="color:var(--muted)">Recorrido recomendado</p><div class="chips">${plan.phases.map((ph,i)=>`<span class="chip">${i+1}. ${ph}</span>`).join("")}</div><div class="row"><a class="btn" href="#sede">Agendar en Manzana 40</a><button class="btn btn-ghost" id="resetBtn" style="color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)">Nuevo diagnóstico</button></div>`;
+          box.querySelector("#resetBtn").onclick = reset;
+          return;
+        }
+        const cur = STEPS[step]; const val = answers[cur.key] || "";
+        const can = cur.key === "name" || cur.kind === "text" || !!val;
+        box.innerHTML = `<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.6rem"><p class="eyebrow" style="margin:0;color:var(--muted)">Ítem ${step+1} de ${STEPS.length}</p><div class="progress"><span style="width:${((step+1)/STEPS.length)*100}%"></span></div></div><h3 style="font-size:1.7rem;margin:0">${cur.title}</h3>${cur.hint?`<p style="color:var(--muted);font-size:.9rem">${cur.hint}</p>`:""}${cur.kind==="text"?`<input id="txt" placeholder="Escribe aquí" value="${(val||"").replace(/"/g,""")}" />`:`<div class="opts">${cur.options.map(o=>`<button class="opt ${val===o.id?"on":""}" data-id="${o.id}">${o.label}</button>`).join("")}</div>`}<div style="display:flex;justify-content:space-between;margin-top:2.2rem"><button class="btn btn-ghost" id="back" ${step===0?"disabled":""} style="color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)">Atrás</button><button class="btn" id="next" ${can?"":"disabled"}>${step===STEPS.length-1?"Ver plan":"Continuar"}</button></div>`;
+        box.querySelectorAll(".opt").forEach((b) => b.onclick = () => { answers[cur.key] = b.dataset.id; save(); renderDiag(); });
+        const txt = box.querySelector("#txt");
+        if (txt) txt.oninput = () => { answers[cur.key] = txt.value; save(); };
+        if (txt) txt.onkeydown = (e) => { if (e.key === "Enter") goNext(); };
+        box.querySelector("#back").onclick = () => { step = Math.max(0, step-1); renderDiag(); };
+        box.querySelector("#next").onclick = goNext;
+      }
+      function goNext() {
+        const cur = STEPS[step];
+        if (cur.key === "ghostwrite" && answers.ghostwrite === "si") { step = 1; renderDiag(); return; }
+        if (step === STEPS.length - 1) { done = true; renderDiag(); return; }
+        step += 1; renderDiag();
+      }
+      function reset() { localStorage.removeItem(KEY); answers = {}; step = 0; done = false; renderDiag(); }
+      renderDiag();
+
+      document.getElementById("visitForm").onsubmit = (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target));
+        const prev = JSON.parse(localStorage.getItem("scientia-visitas") || "[]");
+        localStorage.setItem("scientia-visitas", JSON.stringify([{...data, at: new Date().toISOString()}, ...prev].slice(0,20)));
+        document.getElementById("visitFields").classList.add("hidden");
+        document.getElementById("visitOk").classList.remove("hidden");
+      };
+    </script>
+  </body>
+</html>

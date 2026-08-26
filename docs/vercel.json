@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/etica", "destination": "/etica.html" }
+  ]
+}
